@@ -126,16 +126,11 @@ class GroupedQueryAttention(AbstractAttention):
         q = self.hook_q(
             attn_fn(query_input, self.W_Q, self.b_Q)
         )  # [batch, pos, head_index, d_head]
-
         k = self.hook_k(
-            attn_fn(key_input, self.W_K, self.b_K)
-            if self.cfg.ungroup_grouped_query_attention
-            else attn_fn(key_input, self._W_K, self._b_K)
+            attn_fn(key_input, self._W_K, self._b_K)
         )  # [batch, pos, head_index, d_head]
         v = self.hook_v(
-            attn_fn(value_input, self.W_V, self.b_V)
-            if self.cfg.ungroup_grouped_query_attention
-            else attn_fn(value_input, self._W_V, self._b_V)
+            attn_fn(value_input, self._W_V, self._b_V)
         )  # [batch, pos, head_index, d_head]
         return q, k, v
 
@@ -154,8 +149,7 @@ class GroupedQueryAttention(AbstractAttention):
         Returns:
             Float[torch.Tensor, "batch head_index query_pos key_pos"]: The attention scores.
         """
-        if not self.cfg.ungroup_grouped_query_attention:
-            k = torch.repeat_interleave(k, dim=2, repeats=self.repeat_kv_heads)
+        k = torch.repeat_interleave(k, dim=2, repeats=self.repeat_kv_heads)
         return super().calculate_attention_scores(q, k)
 
     def calculate_z_scores(
@@ -173,6 +167,5 @@ class GroupedQueryAttention(AbstractAttention):
         Returns:
             Float[torch.Tensor, "batch head_index query_pos key_pos"]: The z scores.
         """
-        if not self.cfg.ungroup_grouped_query_attention:
-            v = torch.repeat_interleave(v, dim=2, repeats=self.repeat_kv_heads)
+        v = torch.repeat_interleave(v, dim=2, repeats=self.repeat_kv_heads)
         return super().calculate_z_scores(v, pattern)
