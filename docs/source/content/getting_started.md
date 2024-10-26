@@ -24,8 +24,9 @@ Import the library with `import transformer_lens`
 
 Some of the models available in TransformerLens require gated access to be used. Luckily TransformerLens provides a way to access those models via the configuration of an environmental variable. Simply configure your access token found [here](https://huggingface.co/settings/tokens) as `HF_TOKEN` in your environment.
 
-You will need to make sure you accept the agreements for any gated models, but once you do, the models will work with TransformerLens without issue. If you attempt to ues one of these models before you have accepted any related agreements, the console output will be very helpful and point you to the URL where you need to accept an agreement. As of 23/4/24, the current list of gated models supported by TransformerLens is as follows.
+You will need to make sure you accept the agreements for any gated models, but once you do, the models will work with TransformerLens without issue. If you attempt to use one of these models before you have accepted any related agreements, the console output will be very helpful and point you to the URL where you need to accept an agreement. As of 23/4/24, the current list of gated models supported by TransformerLens is as follows.
 
 * https://huggingface.co/mistralai/Mixtral-8x7B-v0.1
 * https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1
 * https://huggingface.co/mistralai/Mistral-7B-v0.1
+* https://huggingface.co/mistralai/Mistral-Nemo-Base-2407
